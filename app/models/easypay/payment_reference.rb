@@ -104,12 +104,18 @@ module Easypay
       model_attributes.each do |attribute_name, method_name|
         p "attribute_name: #{attribute_name}"
         p "method_name: #{method_name}"
+        p ':::::::::::::::::::::::::::::::::::::::::::::::'
         if @object.respond_to? method_name
           p "#{@object}.respond_to? #{method_name}"
           attributes[attribute_name] = @object.send(method_name)
         elsif !attribute_name.to_s.match("ep_key").nil?
           p "#{@object} not responds to #{method_name}"
           attributes[attribute_name] = method_name
+        else
+          p attributes[attribute_name]
+          p '='
+          p model_attributes[attribute_name.to_sym]
+          attributes[attribute_name] = model_attributes[attribute_name.to_sym]
         end
         p '_______________________________________'
         p attributes
