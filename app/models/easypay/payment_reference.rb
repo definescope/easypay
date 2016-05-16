@@ -102,6 +102,8 @@ module Easypay
     def handle_model_methods
       attributes = {}
       model_attributes.each do |attribute_name, method_name|
+        p "attribute_name: #{attribute_name}"
+        p "method_name: #{method_name}"
         if @object.respond_to? method_name
           p "#{@object}.respond_to? #{method_name}"
           attributes[attribute_name] = @object.send(method_name)
