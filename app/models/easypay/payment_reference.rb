@@ -29,7 +29,7 @@ module Easypay
                                 :request_log => payment_reference["raw"],
                                 :item_description => self.item_description,
                                 :item_quantity => self.item_quantity,
-                                :o_name  => self.o_name,
+                                :o_name => self.o_name,
                                 :o_description  => self.o_description,
                                 :o_obs => self.o_obs,
                                 :o_email => self.o_email,
@@ -41,6 +41,10 @@ module Easypay
       @object = object
       payable_type = @object.class.to_s
 
+      p '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+      p @object.easypay_options
+      p @object.easypay_options[:ep_language]
+      p @object.easypay_options[:ep_value]
 
 
       if compliant?
@@ -99,10 +103,14 @@ module Easypay
       attributes = {}
       model_attributes.each do |attribute_name, method_name|
         if @object.respond_to? method_name
+          p "#{@object}.respond_to? #{method_name}"
           attributes[attribute_name] = @object.send(method_name)
         elsif !attribute_name.to_s.match("ep_key").nil?
+          p "#{@object} not responds to #{method_name}"
           attributes[attribute_name] = method_name
         end
+        p '_______________________________________'
+        p attributes
       end
       return attributes
     end
