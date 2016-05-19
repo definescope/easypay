@@ -254,6 +254,3 @@ module Easypay
     end
   end
 end
-
-
-

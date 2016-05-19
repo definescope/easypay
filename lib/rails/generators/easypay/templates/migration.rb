@@ -23,11 +23,13 @@ class CreateEasypayTables < ActiveRecord::Migration
       t.string    :ep_status_read
       t.string    :ep_invoice_number
       t.string    :ep_transf_number
+      t.string    :ep_boleto
       t.text      :ep_message
       t.text      :request_log
       t.string    :ep_last_status
       t.text      :ep_link
-      
+      t.string    :ep_type
+
       t.string    :o_key
       t.string    :o_name
       t.string    :o_description
@@ -36,19 +38,19 @@ class CreateEasypayTables < ActiveRecord::Migration
       t.string    :o_mobile
       t.string    :item_description
       t.integer   :item_quantity
-      
+
       t.timestamps
     end
-    
+
     create_table :easypay_logs, :force => true do |t|
       t.string :request_type
       t.string :request_remote_ip
       t.text :request_url
       t.text :raw
-      
+
       t.timestamps
     end
-    
+
     add_index :easypay_payment_references, :payable_id
     add_index :easypay_payment_references, :ep_key, :unique => true
     add_index :easypay_payment_references, :ep_doc, :unique => true

@@ -62,7 +62,7 @@ module Easypay
 
     def notification_from_payment
       # ep_cin=8103&ep_user=OUTITUDE&ep_doc=TESTOUTITUDE0088690520120712152503
-      payment_detail = Client.new.get_payment_detail("", params[:ep_doc], params[:ep_type])
+      payment_detail = Client.new.get_payment_detail '', params[:ep_doc], params[:ep_type]
       payment_detail = payment_detail["getautoMB_detail"]
 
       @payment_reference = PaymentReference.find_by ep_reference: payment_detail['ep_reference'], ep_key: payment_detail["t_key"]
@@ -82,10 +82,19 @@ module Easypay
                                             :ep_date => payment_detail["ep_date"],
                                             :ep_status => 'pago')
 
-        # TODO validates the url for using as a gem
-        redirect_to confirm_payment_order_url(@payment_reference.ep_key) and return
+        responds_to do |format|
+          format.html {
+            render xml: {
+              ep_status: 'ok0',
+              ep_message: 'generated document',
+              ep_cin: params[:ep_cin],
+              ep_user: params[:ep_user],
+              ep_doc: params[:ep_doc],
+              ep_key: @payment_reference.ep_key,
+            }, root: 'getautomb_key', dasherize: false, layout:false
+          }
+        end
       end
-
     end
 
     private
