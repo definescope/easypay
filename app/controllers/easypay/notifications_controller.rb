@@ -93,6 +93,7 @@ module Easypay
               ep_key: @payment_reference.ep_key,
             }, root: 'getautomb_key', dasherize: false, layout:false
           }
+          format.xml
         end
       end
     end
