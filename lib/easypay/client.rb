@@ -87,12 +87,8 @@ module Easypay
     protected
 
     def create_http
-      if Rails.env.production?
-          http = Net::HTTP.new(EASYPAY_SERVICE_URL, 443)
-          http.use_ssl = true
-      else
-          http = Net::HTTP.new(EASYPAY_SERVICE_URL)
-      end
+      http = Net::HTTP.new(EASYPAY_SERVICE_URL, 443)
+      http.use_ssl = true
 
       http
     end
@@ -103,8 +99,8 @@ module Easypay
       current_args[:ep_entity] ||= @easypay_entity
       current_args[:ep_ref_type] ||= @easypay_ref_type
       current_args[:ep_country] ||= @easypay_country
-      current_args[:s_code] ||= @easypay_code if current_args[:s_code].nil? and !Rails.env.production?
-      current_args[:ep_test] = "ok" if current_args[:ep_test].nil? and !Rails.env.production?
+      current_args[:s_code] ||= @easypay_code if current_args[:s_code].nil? #and !Rails.env.production?
+      current_args[:ep_test] = "ok" if current_args[:ep_test].nil? #and !Rails.env.production?
 
       return current_args
     end
