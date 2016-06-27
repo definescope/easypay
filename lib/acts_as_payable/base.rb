@@ -12,7 +12,7 @@ module Easypay
         def acts_as_payable args = {}
           has_many :payment_references,
                     :class_name => 'Easypay::PaymentReference',
-                    :foreign_key => "payable_id"
+                    :as => 'payable'
 
           define_method "easypay_options" do
             {
