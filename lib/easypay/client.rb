@@ -87,7 +87,7 @@ module Easypay
     protected
 
     def create_http
-      if Rails.env.production?
+      if (Easypay::Engine.config.try(:mode) == 'production')
           http = Net::HTTP.new(EASYPAY_SERVICE_URL, 443)
           http.use_ssl = true
       else
