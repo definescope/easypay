@@ -82,7 +82,7 @@ module Easypay
                                             :ep_date => payment_detail["ep_date"],
                                             :ep_status => 'pago')
 
-        responds_to do |format|
+        respond_to do |format|
           format.html {
             render xml: {
               ep_status: 'ok0',
