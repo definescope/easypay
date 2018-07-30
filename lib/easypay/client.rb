@@ -1,7 +1,7 @@
 module Easypay
   class Client
 
-    EASYPAY_SERVICE_URL = Rails.env.production? ? "www.easypay.pt" : "test.easypay.pt"
+    EASYPAY_SERVICE_URL = (Easypay::Engine.config.try(:mode) == 'production') ? "www.easypay.pt" : "test.easypay.pt"
 
     def initialize *params
       if params.first.is_a?(Hash)
