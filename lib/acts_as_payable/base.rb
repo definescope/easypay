@@ -24,6 +24,7 @@ module Easypay
               :o_obs => args[:obs] || "obs",
               :o_email => args[:email] || "email",
               :o_mobile => args[:mobile] || "mobile",
+              :o_max_date => args[:max_date] || "max_date",
               :item_description => args[:item_description] || "item_description",
               :item_quantity => args[:item_quantity] || "item_quantity"
             }

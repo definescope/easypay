@@ -2,9 +2,6 @@ module Easypay
   class PaymentReference < ActiveRecord::Base
     self.table_name = 'easypay_payment_references'
 
-    # attr protected not used anymore in rails 4
-    # attr_protected
-
     # TODO validate witch params are worth updating
     # TODO validate if listing is needed
     def update_data_from_listing(payment_reference)
@@ -14,6 +11,7 @@ module Easypay
                                 :ep_cin => payment_reference["ep_cin"],
                                 :ep_doc => payment_reference["ep_doc"],
                                 :ep_user => payment_reference["ep_user"],
+                                :ep_partner => payment_reference["ep_user"],
                                 :ep_payment_type => payment_reference["ep_payment_type"],
                                 :ep_entity => payment_reference["ep_entity"],
                                 :ep_link => payment_reference["payment_link"],
@@ -33,6 +31,7 @@ module Easypay
                                 :o_description  => self.o_description,
                                 :o_obs => self.o_obs,
                                 :o_email => self.o_email,
+                                :o_max_date => self.o_max_date,
                                 :o_mobile  => self.o_mobile) if payment_reference
                                 # "ep_payment_date"=>"2013-12-04 12:58:54"
     end
@@ -53,6 +52,7 @@ module Easypay
                                 :ep_reference => payment_reference["ep_reference"],
                                 :ep_cin => payment_reference["ep_cin"],
                                 :ep_user => payment_reference["ep_user"],
+                                :ep_partner => payment_reference["ep_user"],
                                 :ep_entity => payment_reference["ep_entity"],
                                 :ep_link => payment_reference["ep_link"],
                                 :ep_last_status => payment_reference["ep_status"],
@@ -64,7 +64,8 @@ module Easypay
                                 :o_description  => self.o_description,
                                 :o_obs => self.o_obs,
                                 :o_email => self.o_email,
-                                :o_mobile  => self.o_mobile)
+                                :o_mobile  => self.o_mobile,
+                                :o_max_date => self.o_max_date)
 
         return payment_reference
       else
@@ -121,7 +122,8 @@ module Easypay
         :o_email => @object.easypay_options[:o_email],
         :o_mobile  => @object.easypay_options[:o_mobile],
         :item_description => @object.easypay_options[:item_description],
-        :item_quantity => @object.easypay_options[:item_quantity]
+        :item_quantity => @object.easypay_options[:item_quantity],
+        :o_max_date => @object.easypay_options[:o_max_date]
       }
     end
 

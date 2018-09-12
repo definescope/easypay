@@ -8,6 +8,7 @@ module Easypay
         hash_options = params.first
         @easypay_cin = hash_options[:easypay_cin] || Easypay::Engine.config.cin
         @easypay_user = hash_options[:easypay_user] || Easypay::Engine.config.user
+        @easypay_partner = hash_options[:easypay_partner] || Easypay::Engine.config.user
         @easypay_entity = hash_options[:easypay_entity] || Easypay::Engine.config.entity
         @easypay_code = hash_options[:easypay_code] || Easypay::Engine.config.code
         @easypay_ref_type = hash_options[:easypay_ref_type] || "auto"
@@ -17,6 +18,7 @@ module Easypay
         puts "* warning: the method Easypay::Client.new(ep_cin, ep_user, ep_entity) is deprecated, use Easypay::Client.new(:easypay_cin => 'cin', :easypay_user => 'user', :easypay_entity => 'entity')"
         @easypay_cin = params.shift || Easypay::Engine.config.cin
         @easypay_user = params.shift || Easypay::Engine.config.user
+        @easypay_partner = hash_options[:easypay_partner] || Easypay::Engine.config.user
         @easypay_entity = params.shift || Easypay::Engine.config.entity
         @easypay_code = params.shift || Easypay::Engine.config.code
         @easypay_ref_type = params.shift || "auto"
@@ -24,6 +26,7 @@ module Easypay
       else
         @easypay_cin = Easypay::Engine.config.cin
         @easypay_user = Easypay::Engine.config.user
+        @easypay_partner = Easypay::Engine.config.user
         @easypay_entity = Easypay::Engine.config.entity
         @easypay_code = Easypay::Engine.config.code
         @easypay_ref_type = "auto"
@@ -41,7 +44,8 @@ module Easypay
         :o_description => object.o_description.nil? ? "" : URI.escape(object.o_description),
         :o_obs => object.o_obs.nil? ? "" : URI.escape(object.o_obs),
         :o_mobile => object.o_mobile.nil? ? "" : URI.escape(object.o_mobile),
-        :o_email => object.o_email.nil? ? "" : URI.escape(object.o_email)
+        :o_email => object.o_email.nil? ? "" : URI.escape(object.o_email),
+        :o_max_date => object.o_max_date.nil? ? "" : URI.escape(object.o_max_date)
     end
 
     def create_reference(object)
@@ -54,6 +58,7 @@ module Easypay
         :o_obs => object.o_obs.nil? ? "" : URI.escape(object.o_obs),
         :o_mobile => object.o_mobile.nil? ? "" : URI.escape(object.o_mobile),
         :o_email => object.o_email.nil? ? "" : URI.escape(object.o_email),
+        :o_max_date => object.o_max_date.nil? ? "" : URI.escape(object.o_max_date),
         :ep_type => @easypay_type
       return result["getautoMB"]
     end
@@ -100,6 +105,7 @@ module Easypay
     def process_args(current_args)
       current_args[:ep_cin] ||= @easypay_cin
       current_args[:ep_user] ||= @easypay_user
+      current_args[:ep_partner] ||= @easypay_partner
       current_args[:ep_entity] ||= @easypay_entity
       current_args[:ep_ref_type] ||= @easypay_ref_type
       current_args[:ep_country] ||= @easypay_country

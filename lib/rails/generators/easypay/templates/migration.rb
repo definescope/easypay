@@ -7,6 +7,7 @@ class CreateEasypayTables < ActiveRecord::Migration
       t.string    :ep_doc
       t.string    :ep_cin
       t.string    :ep_user
+      t.string    :ep_partner
       t.string    :ep_language
       t.timestamp :ep_date
       t.string    :ep_status, :default => 'pending'
@@ -36,6 +37,7 @@ class CreateEasypayTables < ActiveRecord::Migration
       t.text      :o_obs
       t.string    :o_email
       t.string    :o_mobile
+      t.string    :o_max_date
       t.string    :item_description
       t.integer   :item_quantity
 
