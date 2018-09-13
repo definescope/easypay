@@ -1,8 +1,6 @@
 module Easypay
   class Client
 
-    EASYPAY_SERVICE_URL = (Easypay::Engine.config.try(:mode) == 'production') ? "www.easypay.pt" : "test.easypay.pt"
-
     def initialize *params
       if params.first.is_a?(Hash)
         hash_options = params.first
@@ -32,6 +30,10 @@ module Easypay
         @easypay_ref_type = "auto"
         @easypay_country = "PT"
       end
+    end
+
+    def easypay_service_url
+      Easypay::Engine.config.try(:mode) == 'production' ? "www.easypay.pt" : "test.easypay.pt"
     end
 
     # API methods
@@ -93,10 +95,10 @@ module Easypay
 
     def create_http
       if (Easypay::Engine.config.try(:mode) == 'production')
-          http = Net::HTTP.new(EASYPAY_SERVICE_URL, 443)
+          http = Net::HTTP.new(easypay_service_url, 443)
           http.use_ssl = true
       else
-          http = Net::HTTP.new(EASYPAY_SERVICE_URL)
+          http = Net::HTTP.new(easypay_service_url)
       end
 
       http
@@ -139,9 +141,9 @@ module Easypay
           response = create_http.get(url, nil)
         end
 
-        result = { :endpoint => EASYPAY_SERVICE_URL, :url => url, :raw => response.body }
+        result = { :endpoint => easypay_service_url, :url => url, :raw => response.body }
 
-        Log.create(:request_type => "Request", :request_url => "#{EASYPAY_SERVICE_URL}#{url}", :raw => response.body)
+        Log.create(:request_type => "Request", :request_url => "#{easypay_service_url}#{url}", :raw => response.body)
 
         return parse_content(result)
 
