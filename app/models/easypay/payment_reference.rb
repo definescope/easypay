@@ -40,8 +40,6 @@ module Easypay
       @object = object
       payable_type = @object.class.to_s
 
-
-
       if compliant?
         self.update_attributes(handle_model_methods)
 
